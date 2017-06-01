@@ -1,4 +1,0 @@
-languageCode = "en-us"
-title = "My New Hugo Site"
-baseURL = "http://joshuahancock.org/"
-publishDir = "docs"
