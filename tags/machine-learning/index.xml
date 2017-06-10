@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Machine Learning on Hugo tranquilpeak theme</title>
-    <link>/tags/machine-learning/index.xml</link>
+    <link>/joshuahancock.org/tags/machine-learning/index.xml</link>
     <description>Recent content in Machine Learning on Hugo tranquilpeak theme</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/joshuahancock.org/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Classifying Handwritten Digits Using EM and PCA</title>
-      <link>/2017/06/classifying-handwritten-digits-using-em-and-pca/</link>
+      <link>/joshuahancock.org/2017/06/classifying-handwritten-digits-using-em-and-pca/</link>
       <pubDate>Sat, 03 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/2017/06/classifying-handwritten-digits-using-em-and-pca/</guid>
+      <guid>/joshuahancock.org/2017/06/classifying-handwritten-digits-using-em-and-pca/</guid>
       <description>&lt;p&gt;In this post, we’ll take the Semeion Handwritten Digits data set (&lt;a href=&#34;http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit&#34; class=&#34;uri&#34;&gt;http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit&lt;/a&gt;) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.&lt;/p&gt;
 &lt;p&gt;First, we’ll read in the data, load the additional libraries, and create our initial data table.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(&amp;quot;mvtnorm&amp;quot;)
@@ -188,7 +188,7 @@ image(t(matrix(randomPick, byrow=TRUE, 16, 16)[16:1, ]), col = topo.colors(255, 
 &lt;p class=&#34;caption&#34;&gt;Fig 2: cluster means versus random draws&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;A visual inspection reveals quite a bit of about the clusters. The cluster means are much more discernible than random draws from the distribution. Several are the numbers are quite distinguishable, while others are less defined, especially in pixels that intersect with similar numbers. Zero appears twice, and numbers two and three have gotten mixed in with other digits.&lt;/p&gt;
-&lt;p&gt;The next step will be to examine the classification and misclassification rates of our model. We must first define one of these rates, as the other is simply &lt;span class=&#34;math inline&#34;&gt;\((1 - rate)\)&lt;/span&gt;. Using the ground truth labels, We will define the misclassification rate as the proportion of each digit not assigned to the same cluster that the majority of that digit is assigned to. The following code will allow us to calculate the misclassification rates for each digit.&lt;/p&gt;
+&lt;p&gt;The next step will be to examine the classification and misclassification rates of our model. We must first define one of these rates, as the other is simply &lt;span class=&#34;math inline&#34;&gt;\((1 - rate)\)&lt;/span&gt;. Using the ground truth labels, we will define the misclassification rate as the proportion of each digit not assigned to the same cluster that the majority of that digit is assigned to. The following code will allow us to calculate the misclassification rates for each digit.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get.mode &amp;lt;- function(x) {
 x.values &amp;lt;- unique(x)
 totals &amp;lt;- tabulate(match(x, x.values))
