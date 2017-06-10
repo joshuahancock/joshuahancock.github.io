@@ -17,21 +17,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.19">
     <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
-    <title>Plot</title>
+    <title>Machine Learning</title>
     <meta name="author" content="Josh Hancock">
     <meta name="keywords" content="">
 
     <link rel="icon" href="/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="/tags/plot/index.xml">
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/categories/machine-learning/index.xml">
     
 
     
     <meta name="description" content="Hugo tranquilpeak theme demo">
     <meta property="og:description" content="Hugo tranquilpeak theme demo">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Plot">
-    <meta property="og:url" content="/tags/plot/">
+    <meta property="og:title" content="Machine Learning">
+    <meta property="og:url" content="/categories/machine-learning/">
     <meta property="og:site_name" content="Hugo tranquilpeak theme">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Hugo tranquilpeak theme">
@@ -224,15 +224,15 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="/2015/07/hello-r-markdown/">
-          Hello R Markdown
+        <a class="link-unstyled" href="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
+          Classifying Handwritten Digits Using EM and PCA
         </a>
       </h1>
       <div class="postShorten-meta post-meta">
   
-    <time itemprop="datePublished" datetime="2015-07-23T21:13:14-05:00">
+    <time itemprop="datePublished" datetime="2017-06-03T00:00:00Z">
       
-  July 23, 2015
+  June 3, 2017
 
     </time>
   
@@ -241,7 +241,7 @@
   
     <span>in</span>
     
-      <a class="category-link" href="/categories/r">R</a>
+      <a class="category-link" href="/categories/machine-learning">machine learning</a>
     
   
 
@@ -251,15 +251,19 @@
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       <p>
-        R Markdown
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com">http://rmarkdown.rstudio.com</a>.
-You can embed an R code chunk like this:
-summary(cars)</p>
+        In this post, we’ll take the Semeion Handwritten Digits data set (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)
+library(&quot;data.table&quot;)</p>
 
-<h2 id="speed-dist-min-4-0-min-2-00-1st-qu-12-0-1st-qu-26-00-median-15-0-median-36-00-mean-15-4-mean-42-98-3rd-qu">speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</h2>
+<h1 id="reading-data-and-convert-to-data-table">Reading data and convert to data table</h1>
 
+<p>setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
+data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
+x &lt;- data[, 1:256]
+Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.
         <br>
-        <a href="/2015/07/hello-r-markdown/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="/2017/06/classifying-handwritten-digits-using-em-and-pca/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>

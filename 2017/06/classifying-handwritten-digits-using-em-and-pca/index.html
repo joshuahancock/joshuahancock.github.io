@@ -1,0 +1,969 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.19">
+    <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
+    <title>Classifying Handwritten Digits Using EM and PCA</title>
+    <meta name="author" content="Josh Hancock">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+    <meta name="description" content="In this post, we’ll take the Semeion Handwritten Digits data set (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
+    <meta property="og:description" content="In this post, we’ll take the Semeion Handwritten Digits data set (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Classifying Handwritten Digits Using EM and PCA">
+    <meta property="og:url" content="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
+    <meta property="og:site_name" content="Hugo tranquilpeak theme">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hugo tranquilpeak theme">
+    <meta name="twitter:description" content="In this post, we’ll take the Semeion Handwritten Digits data set (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://github.com/joshuahancock/joshuahancock.github.io/blob/master/images/avatar.jpg?raw=true">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" />
+    
+    
+    <link rel="stylesheet" href="/css/style-u6mk0ojoywresbx8iepslrmmhl4stuhrsxuwhkpwrkrx7mryjcaimasnk4pi.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">Hugo tranquilpeak theme</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://github.com/joshuahancock/joshuahancock.github.io/blob/master/images/avatar.jpg?raw=true" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="https://github.com/joshuahancock/joshuahancock.github.io/blob/master/images/avatar.jpg?raw=true" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Josh Hancock</h4>
+        
+          <h5 class="sidebar-profile-bio">I&rsquo;m a data scientist in Atlanta, GA.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/636472/kakawait">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/joshuahancock">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Classifying Handwritten Digits Using EM and PCA
+    </h1>
+  
+  <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="2017-06-03T00:00:00Z">
+      
+  June 3, 2017
+
+    </time>
+  
+  
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="/categories/machine-learning">machine learning</a>
+    
+  
+
+
+</div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>In this post, we’ll take the Semeion Handwritten Digits data set (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit" class="uri">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.</p>
+<p>First, we’ll read in the data, load the additional libraries, and create our initial data table.</p>
+<pre class="r"><code>library(&quot;mvtnorm&quot;)
+library(&quot;data.table&quot;)
+# Reading data and convert to data table
+setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
+data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
+x &lt;- data[, 1:256]</code></pre>
+<p>Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box. Each of these 256 pixels, originally in grey scale, was thresholded into a binary value that indicates ‘black’ or ‘white’ for that pixel. There are 10 additional columns (also binary), which indicate group membership. We’ll need to separate those labels into their own data table.</p>
+<pre class="r"><code>labels &lt;-apply(data[, 257:266], 1, function(xx){return(which(xx == &quot;1&quot;) -1)})</code></pre>
+<p>Before we start clustering, we need to take care of a few global variables and run our initial clustering algorithm.</p>
+<pre class="r"><code># k is the number of clusters
+k &lt;- 10
+# n is the number of observations
+n &lt;- nrow(x)
+# d is the number of diwmensions
+d &lt;- ncol(x)
+# q represents the number of principal components and will need to be manually changed
+q &lt;- 6
+# x.clusters are the clusters using k means and 100 random starts
+x.clusters &lt;- kmeans(x, k, nstart = 100)</code></pre>
+<p>Now that we have preliminary clusters, we’ll initialize our <span class="math inline">\(\gamma\)</span> matrix, which will hold the cluster membership probabilities for each observation. We then use <span class="math inline">\(\gamma\)</span> to calculate <span class="math inline">\(\Pi_k\)</span>, the proportion of observations assigned to cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\mu_k\)</span>, the mean of the observations within each cluster <span class="math inline">\(k\)</span>.</p>
+<pre class="r"><code># n by k matrix, initialized with zeros
+gamma &lt;- matrix(0, n, k)
+# indicate the inital custer membership with a binary label
+for(i in 1:n) {gamma[i, x.clusters$cluster[i]] = 1}
+# the number of members in each cluster
+N &lt;- colSums(gamma)
+# the percentage of the data set in cluster k
+pi.hat &lt;- N/n
+# the mean for each pixel in each cluster
+# note: a matrix is required for the t() function
+mu.hat &lt;- (t(gamma) %*% data.matrix(x))/ N</code></pre>
+<p>Before beginning the EM algorithm, we must initialize a covariance matrix for each pixel of each cluster. To do this, we’ll write a function to calculate the covariance for each cluster and store the result in a list of length <span class="math inline">\(k\)</span>.</p>
+<pre class="r"><code>sigma.k &lt;- function(GAMMA, X, MU, X.CLUSTERS, q){
+# initialize empty list to hold sigma matricies  
+sigma.list &lt;- list()
+# normailze columns
+g.norm &lt;- t(t(GAMMA)/N)
+# iterate over each cluster
+for(i in 1:k){
+# for each observation in the data set, subtract the mu
+x.mu &lt;- t(apply(X, 1, function(xx) xx-MU[i, ]))
+# create convariance matrix
+g.x.mu &lt;- t(g.norm[, i] * x.mu) %*% x.mu
+# eigen decomposition
+x.decomp &lt;- eigen(g.x.mu)
+# principal components step 
+if(q &gt; 0){
+sig.hat &lt;- sum(x.decomp$values[as.integer(q + 1):as.integer(d)]) / (d - q)
+decomp.vec &lt;- x.decomp$vectors[, 1:q]
+lambda &lt;- x.decomp$values[1:q]
+W &lt;- decomp.vec %*% (diag(q) * sqrt(lambda - sig.hat)) %*% t(decomp.vec)
+sigma.list[[i]] &lt;- W %*% t(W) + sig.hat * diag(d)
+}
+else {
+sigma.list[[i]] &lt;- diag(d) * sum(x.decomp$values) / d
+}
+}
+return(sigma.list)
+}</code></pre>
+<p>Now that we’ve defined our function, we can initialize our <span class="math inline">\(\Sigma\)</span> element:</p>
+<pre class="r"><code>sigma.hat &lt;- sigma.k(gamma, x, muHat, x.clusters, q)</code></pre>
+<p>Now that we have our basis functions and structure initialized, we can begin with the E and M steps of the process. In order to do that, we need to define a few more functions. First, we’ll update our <span class="math inline">\(\gamma\)</span> matrix with the following function:</p>
+<pre class="r"><code>update.gamma &lt;- function(PI, SIGMA , X, MU){
+# a temp matrix to store gamma values
+p.mu.sig &lt;- matrix(nrow = n, ncol = k)
+# iterate over clusters
+for(i in 1:k){
+# weight raw probabilities by pi
+p.mu.sig[, i] &lt;- PI[i] * dmvnorm(X, MU[i, ], SIGMA[[i]])
+}
+weights &lt;- rowSums(p.mu.sig)
+# returns normalized rows
+return(p.mu.sig / weights)
+}</code></pre>
+<p>Next, we need a function to calculate the log likelihood:</p>
+<pre class="r"><code>LL &lt;- function(PI, SIGMA, X, MU){
+# keeps a running track of the sum
+iter.sum &lt;- c(rep(0, n))
+for(i in 1:k){
+iter.sum &lt;- iter.sum + PI[i] * dmvnorm(X, MU[i, ], SIGMA[[i]])
+}
+return(sum(log(iter.sum)))
+}</code></pre>
+<p>Finally, we need a function to calculate the AIC, so that we’ll be able to pick the proper number of principal components to use with our algorithm.</p>
+<pre class="r"><code>AIC &lt;- function(LL, q){
+return(-2 * LL + 2 * (d * q + 1 - q* (q - 1) / 2))
+}</code></pre>
+<p>Now, we’re ready to begin our algorithm. The first step, or <span class="math inline">\(E\)</span> step, updates the <span class="math inline">\(\gamma\)</span> matrix. The second, or <span class="math inline">\(M\)</span>, step calculates the new <span class="math inline">\(\mu_k\)</span>, <span class="math inline">\(\pi_k\)</span>, and <span class="math inline">\(\Sigma_k\)</span> based on the updated <span class="math inline">\(\gamma\)</span> matrix. At the end of each iteration the log likelihood is calculated and after a predetermined number of iterations, the process should converge. Here, we will choose 50 iterations, which we will then examine graphically.</p>
+<pre class="r"><code>LL.list &lt;- c()
+AIC.list &lt;- c()
+iters &lt;- 0
+while(iters &lt; 51){
+gamma &lt;- update.gamma(piHat, sigma.hat, x , mu.hat)
+N &lt;- colSums(gamma)
+pi.hat &lt;- N / n
+mu.hat &lt;- (t(gamma) %*% as.matrix(x)) / N
+sigma.hat &lt;- sigma.k(gamma, x, mu.hat, x, q)
+log.likelihood &lt;- LL(pi.hat, sigma.hat, x, mu.hat)
+LL.list &lt;- c(LL.list, log.likelihood)
+iters &lt;- iters + 1
+}
+AIC.q &lt;- AIC(tail(LL.list, 1), q)
+AIC.list &lt;- c(AIC.list, AIC.q)
+if(q == 0){
+  ll.plot &lt;- as.matrix(LL.list)
+} else{
+  ll.plot &lt;- cbind(ll.plot, LL.list)
+}
+AIC.table &lt;- rbind(AIC.table, cbind(q, AIC.q)</code></pre>
+<p>Some simple code to plot the log likelihood for each <span class="math inline">\(q\)</span>:</p>
+<pre class="r"><code># a vector of q values
+q.list &lt;- c(0, 2, 4, 6)
+par(mfrow=c(2,2))
+# plot each column of the object holding our likelihood values
+for(i in 1:4){
+plot(ll.plot[, i], ylab = &quot;Log Likelihood&quot;, xlab = &quot;Iteration&quot;,
+main=paste(&quot;q&quot;, q.list[i], sep= &quot; = &quot;))}</code></pre>
+<div class="figure">
+<img src="q_plot.jpeg" alt="Fig 1: convergance of the EM algorithm" />
+<p class="caption">Fig 1: convergance of the EM algorithm</p>
+</div>
+<p>As we can see from the plots, the algorithm needed far fewer than 50 iterations to converge. We can also see the dramatic change in log likelihood values and <span class="math inline">\(q\)</span> increases. As previously mentioned, we’re using the value of <span class="math inline">\(q\)</span> which minimizes AIC:</p>
+<br><br>
+<center>
+<table style="width:29%;">
+<caption>AIC value for each <span class="math inline">\(q\)</span>:</caption>
+<colgroup>
+<col width="11%" />
+<col width="18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>q</th>
+<th>AIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>6</p></td>
+<td><p>255256.93</p></td>
+</tr>
+<tr class="even">
+<td><p>4</p></td>
+<td><p>291812.73</p></td>
+</tr>
+<tr class="odd">
+<td><p>2</p></td>
+<td><p>346328.17</p></td>
+</tr>
+<tr class="even">
+<td><p>0</p></td>
+<td><p>420376.53</p></td>
+</tr>
+</tbody>
+</table>
+</center>
+<p><br></p>
+<p>We can see that <span class="math inline">\(q = 6\)</span> minimizes the AIC, so that is the number of principal components we’ll use for our model, which we’ll now assess for accuracy. First, we’ll create a panel plot comparing the mean of each cluster to a five random draws from the distribution.</p>
+<pre class="r"><code>par(mai = c(0.05, 0.05, 0.05, 0.05), mfrow = c(10, 6))
+for(i in 1:k){
+image(t(matrix(mu.hat[i, ], byrow = TRUE, 16, 16)[16:1, ]), col = topo.colors(255, alpha = 0.75), axes = FALSE)
+box()
+for(j in 1:5){
+randomPick &lt;- rmvnorm(1, mu.hat[i, ], sigma.hat[[i]])
+image(t(matrix(randomPick, byrow=TRUE, 16, 16)[16:1, ]), col = topo.colors(255, alpha = 0.75), axes = FALSE)
+}
+}</code></pre>
+<div class="figure">
+<img src="mean_plot.jpeg" alt="Fig 2: cluster means versus random draws" />
+<p class="caption">Fig 2: cluster means versus random draws</p>
+</div>
+<p>A visual inspection reveals quite a bit of about the clusters. The cluster means are much more discernible than random draws from the distribution. Several are the numbers are quite distinguishable, while others are less defined, especially in pixels that intersect with similar numbers. Zero appears twice, and numbers two and three have gotten mixed in with other digits.</p>
+<p>The next step will be to examine the classification and misclassification rates of our model. We must first define one of these rates, as the other is simply <span class="math inline">\((1 - rate)\)</span>. Using the ground truth labels, We will define the misclassification rate as the proportion of each digit not assigned to the same cluster that the majority of that digit is assigned to. The following code will allow us to calculate the misclassification rates for each digit.</p>
+<pre class="r"><code>get.mode &lt;- function(x) {
+x.values &lt;- unique(x)
+totals &lt;- tabulate(match(x, x.values))
+return(c(x.values[which.max(totals)], max(totals)))
+}
+which.digit &lt;- c()
+for(i in 1:n){
+which.digit &lt;- c(which.digit, which.max(gamma[i, ]) )
+}
+digit.mapping &lt;- matrix(0, 10, 2)
+for(ii in 1:k){
+indices &lt;- which(which.digit == ii - 1)
+digit.mapping[ii, ] &lt;- get.mode(which.digit[indices]) }
+ground.truth &lt;- tabulate(match(which.digit, unique(which.digit)))
+truth.prop &lt;- digit.mapping[, 2] / ground.truth
+mis.truth &lt;- 1 - truth.prop
+mis.class &lt;- 1 - sum(digit.mapping[, 2]) / n</code></pre>
+Which gives us the following table: <br><br>
+<center>
+<table style="width:62%;">
+<caption>MCR(misclassification rate)</caption>
+<colgroup>
+<col width="11%" />
+<col width="13%" />
+<col width="15%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Digit</th>
+<th>Cluster</th>
+<th>Quantity</th>
+<th>Total</th>
+<th>MCR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>87</p></td>
+<td><p>161</p></td>
+<td><p>0.46</p></td>
+</tr>
+<tr class="even">
+<td><p>1</p></td>
+<td><p>7</p></td>
+<td><p>99</p></td>
+<td><p>162</p></td>
+<td><p>0.39</p></td>
+</tr>
+<tr class="odd">
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>105</p></td>
+<td><p>159</p></td>
+<td><p>0.34</p></td>
+</tr>
+<tr class="even">
+<td><p>3</p></td>
+<td><p>6</p></td>
+<td><p>105</p></td>
+<td><p>159</p></td>
+<td><p>0.34</p></td>
+</tr>
+<tr class="odd">
+<td><p>4</p></td>
+<td><p>8</p></td>
+<td><p>138</p></td>
+<td><p>161</p></td>
+<td><p>0.14</p></td>
+</tr>
+<tr class="even">
+<td><p>5</p></td>
+<td><p>10</p></td>
+<td><p>76</p></td>
+<td><p>159</p></td>
+<td><p>0.52</p></td>
+</tr>
+<tr class="odd">
+<td><p>6</p></td>
+<td><p>4</p></td>
+<td><p>116</p></td>
+<td><p>161</p></td>
+<td><p>0.28</p></td>
+</tr>
+<tr class="even">
+<td><p>7</p></td>
+<td><p>2</p></td>
+<td><p>134</p></td>
+<td><p>159</p></td>
+<td><p>0.15</p></td>
+</tr>
+<tr class="odd">
+<td><p>8</p></td>
+<td><p>5</p></td>
+<td><p>118</p></td>
+<td><p>155</p></td>
+<td><p>0.24</p></td>
+</tr>
+<tr class="even">
+<td><p>9</p></td>
+<td><p>10</p></td>
+<td><p>78</p></td>
+<td><p>158</p></td>
+<td><p>0.51</p></td>
+</tr>
+</tbody>
+</table>
+</center>
+<p><br></p>
+<p>This MCR table helps shed some light on inferences we made from the previous plots. Cluster 9, which most closely resembles a zero, was not the most common cluster for any digit. Cluster 10 was the most common cluster for both five and nine. The clusters with the lower misclassification rate tend to be the clusters with the most clearly defined mean plots in <em>Fig 2</em>.</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="//tags/machine-learning/">machine learning</a>
+
+  <a class="tag tag--primary tag--small" href="//tags/r/">R</a>
+
+  <a class="tag tag--primary tag--small" href="//tags/pca/">PCA</a>
+
+  <a class="tag tag--primary tag--small" href="//tags/em/">EM</a>
+
+  <a class="tag tag--primary tag--small" href="//tags/kmeans/">kmeans</a>
+
+  <a class="tag tag--primary tag--small" href="//tags/clustering/">clustering</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--disabled">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/test-post/" data-tooltip="Test Post">
+          
+            <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+      <li class="post-action">
+        <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <i class="fa fa-comment-o"></i>
+        </a>
+      </li>
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <span class="copyrights">
+    &copy; 2017 Josh Hancock. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  <nav>
+    <ul class="post-actions post-action-nav">
+      
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--disabled">
+          
+            <i class="fa fa-angle-left"></i>
+            <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+          </a>
+        </li>
+        <li class="post-action">
+          
+            <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/test-post/" data-tooltip="Test Post">
+          
+            <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </nav>
+  <ul class="post-actions post-action-share">
+    
+      <li class="post-action hide-lg hide-md hide-sm">
+        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+          <i class="fa fa-share-alt"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
+          <i class="fa fa-facebook-official"></i>
+        </a>
+      </li>
+      <li class="post-action hide-xs">
+        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+    
+    
+      <li class="post-action">
+        <a class="post-action-btn btn btn--default" href="#disqus_thread">
+          <i class="fa fa-comment-o"></i>
+        </a>
+      </li>
+    
+    <li class="post-action">
+      
+        <a class="post-action-btn btn btn--default" href="#">
+      
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <ul class="share-options">
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
+        <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
+        <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+      </a>
+    </li>
+    <li class="share-option">
+      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
+        <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://github.com/joshuahancock/joshuahancock.github.io/blob/master/images/avatar.jpg?raw=true" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Josh Hancock</h4>
+    
+      <div id="about-card-bio">I&rsquo;m a data scientist in Atlanta, GA.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Data Scientist
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Atlanta, GA
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
+                <h3 class="media-heading">Classifying Handwritten Digits Using EM and PCA</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">In this post, we’ll take the Semeion Handwritten Digits data set (http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/06/test-post/">
+                <h3 class="media-heading">Test Post</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2016/12/a-plain-markdown-post/">
+                <h3 class="media-heading">A Plain Markdown Post</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2016
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
+ You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday&rsquo;s Markdown and Pandoc&rsquo;s Markdown.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/07/hello-r-markdown/">
+                <h3 class="media-heading">Hello R Markdown</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2015/01/lorem-ipsum/">
+                <h3 class="media-heading">Lorem Ipsum</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/post/">
+                <h3 class="media-heading">Posts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         6 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('/images/ed.jpg');"></div>
+  
+
+
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js"></script>
+
+
+<script src="/js/script-wl33z0n6ocaypepiqrazthtivfrliqijej4rq8ek8gvrv1awftmgjuv8k4zc.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight').each(function(i, block) {
+    var code = "";
+    hljs.highlightAuto(block.innerText).value.split(/\r\n|\r|\n/).forEach(function(line) {
+      code += "<span class=\"line\">" + line + "</span><br>";
+    });
+    if (code.length > 0) {
+      block.innerHTML = code;  
+    }
+  });
+  $('pre > code').each(function(i, block) {
+    $(this).addClass('codeblock');
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2017\/06\/classifying-handwritten-digits-using-em-and-pca\/';
+          
+            this.page.identifier = '\/2017\/06\/classifying-handwritten-digits-using-em-and-pca\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+
+    
+  </body>
+</html>
+
