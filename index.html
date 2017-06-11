@@ -17,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.19">
     <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
-    <title>Hugo tranquilpeak theme</title>
+    <title>Josh Hancock</title>
     <meta name="author" content="Josh Hancock">
     <meta name="keywords" content="">
 
@@ -30,11 +30,11 @@
     <meta name="description" content="Josh Hancock">
     <meta property="og:description" content="Josh Hancock">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Hugo tranquilpeak theme">
+    <meta property="og:title" content="Josh Hancock">
     <meta property="og:url" content="/">
-    <meta property="og:site_name" content="Hugo tranquilpeak theme">
+    <meta property="og:site_name" content="Josh Hancock">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Hugo tranquilpeak theme">
+    <meta name="twitter:title" content="Josh Hancock">
     <meta name="twitter:description" content="Josh Hancock">
     
     
@@ -73,7 +73,7 @@
       <header id="header" data-behavior="1">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="/">Hugo tranquilpeak theme</a>
+    <a class="header-title-link" href="/">Josh Hancock</a>
   </div>
   
     
@@ -197,10 +197,6 @@
             
   
     
-      
-        
-      
-    
   
 
 
@@ -238,14 +234,29 @@
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       <p>
-        In this post, we’ll take the Semeion Handwritten Digits data set (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.</p>
+        In this post, we’ll take the Semeion Handwritten Digits data set (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)
+library(&quot;data.table&quot;)</p>
 
+<h1 id="reading-data-and-convert-to-data-table">Reading data and convert to data table</h1>
 
+<p>setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
+data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
+x &lt;- data[, 1:256]
+Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.
+        <br>
         <a href="/2017/06/classifying-handwritten-digits-using-em-and-pca/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>
   </div>
+  
+    <a href="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="/images/heat_plot_large.jpeg"/>
+      </div>
+    </a>
   
 </article>
 
@@ -328,13 +339,7 @@
               </span>
               <div class="media-content hide-xs font-merryweather">In this post, we’ll take the Semeion Handwritten Digits data set (http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)
-library(&quot;data.table&quot;)
-# Reading data and convert to data table
-setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
-data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
-x &lt;- data[, 1:256]
-Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</div>
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>

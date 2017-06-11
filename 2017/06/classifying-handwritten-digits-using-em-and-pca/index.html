@@ -38,9 +38,9 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Classifying Handwritten Digits Using EM and PCA">
     <meta property="og:url" content="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
-    <meta property="og:site_name" content="Hugo tranquilpeak theme">
+    <meta property="og:site_name" content="Josh Hancock">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Hugo tranquilpeak theme">
+    <meta name="twitter:title" content="Josh Hancock">
     <meta name="twitter:description" content="In this post, we’ll take the Semeion Handwritten Digits data set (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
 library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
@@ -55,6 +55,10 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
     
 
     
+      <meta property="og:image" content="/images/heat_plot_large.jpeg">
+    
+    
+      <meta property="og:image" content="/heat_plot_large.jpeg">
     
     
 
@@ -81,7 +85,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
       <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="/">Hugo tranquilpeak theme</a>
+    <a class="header-title-link" href="/">Josh Hancock</a>
   </div>
   
     
@@ -194,15 +198,13 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
 </nav>
 
       
-
-      <div id="main" data-behavior="4"
-        class="
-               hasCoverMetaIn
-               ">
-        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
-          
-          
-            <div class="post-header main-content-wrap text-left">
+  <div class="post-header-cover
+              text-left
+              "
+       style="background-image:url('heat_plot_large.jpeg')"
+       data-behavior="4">
+    
+      <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
       Classifying Handwritten Digits Using EM and PCA
@@ -229,6 +231,16 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
 </div>
 
 </div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="4"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
