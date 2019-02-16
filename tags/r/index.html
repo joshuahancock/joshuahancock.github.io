@@ -15,7 +15,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.19">
+    <meta name="generator" content="Hugo 0.54.0">
     <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
     <title>R</title>
     <meta name="author" content="Josh Hancock">
@@ -32,9 +32,9 @@
     <meta property="og:type" content="blog">
     <meta property="og:title" content="R">
     <meta property="og:url" content="/tags/r/">
-    <meta property="og:site_name" content="Josh Hancock">
+    <meta property="og:site_name" content="Josh Hancock&#39;s Personal Site">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Josh Hancock">
+    <meta name="twitter:title" content="Josh Hancock&#39;s Personal Site">
     <meta name="twitter:description" content="Josh Hancock">
     
     
@@ -73,7 +73,7 @@
       <header id="header" data-behavior="1">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="/">Josh Hancock</a>
+    <a class="header-title-link" href="/">Josh Hancock&#39;s Personal Site</a>
   </div>
   
     
@@ -99,7 +99,7 @@
         </a>
         <h4 class="sidebar-profile-name">Josh Hancock</h4>
         
-          <h5 class="sidebar-profile-bio">I&rsquo;m a data scientist in Atlanta, GA.</h5>
+          <h5 class="sidebar-profile-bio">MLB &gt; NBA &gt;&gt;&gt;&gt;&gt;&gt; NFL</h5>
         
       </div>
     
@@ -237,7 +237,7 @@
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       <p>
-        In this post, we’ll take the Semeion Handwritten Digits data set (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+        <p>In this post, we’ll take the <a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit">Semeion Handwritten Digits</a> data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
 library(&quot;mvtnorm&quot;)
 library(&quot;data.table&quot;)</p>
@@ -247,7 +247,8 @@ library(&quot;data.table&quot;)</p>
 <p>setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
 data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
 x &lt;- data[, 1:256]
-Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.
+Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</p>
+
         <br>
         <a href="/2017/06/classifying-handwritten-digits-using-em-and-pca/" class="postShorten-excerpt_link link">Continue reading</a>
         
@@ -257,12 +258,14 @@ Each row of the data represents one handwritten digit, which were digitally scan
   
     <a href="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
       <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="/images/heat_plot_large.jpeg"/>
+        <img alt="" itemprop="image" src="images/heat_plot_large.jpeg"/>
       </div>
     </a>
   
 </article>
 
+            
+              
             
             
 
@@ -275,7 +278,7 @@ Each row of the data represents one handwritten digit, which were digitally scan
 
 
   <span class="copyrights">
-    &copy; 2017 Josh Hancock. All Rights Reserved
+    &copy; 2019 Josh Hancock. All Rights Reserved
   </span>
 </footer>
 
@@ -292,20 +295,20 @@ Each row of the data represents one handwritten digit, which were digitally scan
     
     <h4 id="about-card-name">Josh Hancock</h4>
     
-      <div id="about-card-bio">I&rsquo;m a data scientist in Atlanta, GA.</div>
+      <div id="about-card-bio">MLB &gt; NBA &gt;&gt;&gt;&gt;&gt;&gt; NFL</div>
     
     
       <div id="about-card-job">
         <i class="fa fa-briefcase"></i>
         <br/>
-        Data Scientist
+        Senior Data Scientist @ Nike
       </div>
     
     
       <div id="about-card-location">
         <i class="fa fa-map-marker"></i>
         <br/>
-        Atlanta, GA
+        Portland, OR
       </div>
     
   </div>
@@ -333,6 +336,23 @@ Each row of the data represents one handwritten digit, which were digitally scan
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="/2019/02/test-post/">
+                <h3 class="media-heading">Test Post</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
                 <h3 class="media-heading">Classifying Handwritten Digits Using EM and PCA</h3>
               </a>
@@ -341,9 +361,26 @@ Each row of the data represents one handwritten digit, which were digitally scan
                   Jun 6, 2017
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">In this post, we’ll take the Semeion Handwritten Digits data set (http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+              <div class="media-content hide-xs font-merryweather">In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
 library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/">
+                <h3 class="media-heading">Using Regression Analysis to Predict MLB Attendance</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">The standard MLB season is 162 games long and each team typically plays 81 games at home and 81 games in the stadiums of the opposing teams. Using data from historical MLB seasons, we can build a model to predict the total attendance at the 81 home games for each team. In many business applications, it’s of particualr interest to stakeholders to understand which factors influence the revenue-creating side of the business.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -357,7 +394,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
               </a>
               <span class="media-meta">
                 <span class="media-date text-small">
-                  Jun 6, 2017
+                  Feb 2, 2019
                 </span>
               </span>
               <div class="media-content hide-xs font-merryweather"></div>
@@ -373,7 +410,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         2 posts found
+         4 posts found
       </p>
     </div>
   </div>
@@ -381,7 +418,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
     
   
     
-    <div id="cover" style="background-image:url('/images/ed.jpg');"></div>
+    <div id="cover" style="background-image:url('images/placeholder_optimized.jpg');"></div>
   
 
 
