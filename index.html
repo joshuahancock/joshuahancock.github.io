@@ -207,6 +207,63 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/">
+          Using Regression Analysis to Predict MLB Attendance
+        </a>
+      </h1>
+      <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="2017-06-28T00:00:00Z">
+      
+  June 28, 2017
+
+    </time>
+  
+  
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="/categories/regression">regression</a>
+    
+  
+
+
+</div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      <p>
+        
+        <br>
+        <a href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+    <a href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="/images/heat_plot_large.jpeg"/>
+      </div>
+    </a>
+  
+</article>
+
+          
+            
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
           Classifying Handwritten Digits Using EM and PCA
         </a>
@@ -231,26 +288,32 @@
 
 </div>
 
-<a href="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="/images/heat_plot_large.jpeg"/>
-      </div>
-    </a>
-
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       <p>
-        In this post, we’ll take the Semeion Handwritten Digits data set (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization...</p>
+        In this post, we’ll take the Semeion Handwritten Digits data set (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)
+library(&quot;data.table&quot;)</p>
 
-<p>
-        
+<h1 id="reading-data-and-convert-to-data-table">Reading data and convert to data table</h1>
+
+<p>setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
+data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
+x &lt;- data[, 1:256]
+Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.
+        <br>
         <a href="/2017/06/classifying-handwritten-digits-using-em-and-pca/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>
   </div>
   
-    
+    <a href="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="/images/heat_plot_large.jpeg"/>
+      </div>
+    </a>
   
 </article>
 
@@ -323,6 +386,23 @@
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/">
+                <h3 class="media-heading">Using Regression Analysis to Predict MLB Attendance</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
                 <h3 class="media-heading">Classifying Handwritten Digits Using EM and PCA</h3>
               </a>
@@ -333,13 +413,7 @@
               </span>
               <div class="media-content hide-xs font-merryweather">In this post, we’ll take the Semeion Handwritten Digits data set (http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit) and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)
-library(&quot;data.table&quot;)
-# Reading data and convert to data table
-setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
-data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
-x &lt;- data[, 1:256]
-Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</div>
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -369,7 +443,7 @@ Each row of the data represents one handwritten digit, which were digitally scan
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         2 posts found
+         3 posts found
       </p>
     </div>
   </div>
