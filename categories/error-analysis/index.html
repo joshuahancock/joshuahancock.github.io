@@ -1,9 +1,5 @@
 
 
-  
-    
-  
-
 
   
 
@@ -21,29 +17,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.54.0">
     <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
-    <title>Classifying Handwritten Digits Using EM and PCA</title>
+    <title>Error Analysis</title>
     <meta name="author" content="Josh Hancock">
     <meta name="keywords" content="">
 
     <link rel="icon" href="/favicon.png">
     
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/categories/error-analysis/index.xml">
+    
 
     
-    <meta name="description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
-First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
-    <meta property="og:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
-First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
+    <meta name="description" content="Josh Hancock">
+    <meta property="og:description" content="Josh Hancock">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Classifying Handwritten Digits Using EM and PCA">
-    <meta property="og:url" content="/2017/06/classifying-handwritten-digits-using-em-and-pca/">
+    <meta property="og:title" content="Error Analysis">
+    <meta property="og:url" content="/categories/error-analysis/">
     <meta property="og:site_name" content="Josh Hancock&#39;s Personal Site">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Josh Hancock&#39;s Personal Site">
-    <meta name="twitter:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
-First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
+    <meta name="twitter:description" content="Josh Hancock">
     
     
 
@@ -55,10 +47,6 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
     
 
     
-      <meta property="og:image" content="images/heat_plot_large.jpeg">
-    
-    
-      <meta property="og:image" content="heat_plot_large.jpeg">
     
     
 
@@ -82,7 +70,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="4">
+      <header id="header" data-behavior="1">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="/">Josh Hancock&#39;s Personal Site</a>
@@ -102,7 +90,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
   
 </header>
 
-      <nav id="sidebar" data-behavior="4">
+      <nav id="sidebar" data-behavior="1">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -198,23 +186,39 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
 </nav>
 
       
-  <div class="post-header-cover
-              text-left
-              "
-       style="background-image:url('heat_plot_large.jpeg')"
-       data-behavior="4">
-    
-      <div class="post-header main-content-wrap text-left">
-  
-    <h1 class="post-title" itemprop="headline">
-      Classifying Handwritten Digits Using EM and PCA
-    </h1>
-  
-  <div class="postShorten-meta post-meta">
-  
-    <time itemprop="datePublished" datetime="2017-06-03T00:00:00Z">
+        
+
       
-  June 3, 2017
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        
+          <section class="postShorten-group main-content-wrap">
+            
+            
+              
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/">
+          Using Regression Analysis to Predict MLB Attendance
+        </a>
+      </h1>
+      <div class="postShorten-meta post-meta">
+  
+    <time itemprop="datePublished" datetime="2017-06-02T00:00:00Z">
+      
+  June 2, 2017
 
     </time>
   
@@ -223,420 +227,257 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
   
     <span>in</span>
     
-      <a class="category-link" href="/categories/machine-learning">machine learning</a>
+      <a class="category-link" href="/categories/regression">regression</a>, 
+    
+      <a class="category-link" href="/categories/mlb">MLB</a>, 
+    
+      <a class="category-link" href="/categories/error-analysis">error analysis</a>
     
   
 
 
 </div>
 
-</div>
-    
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      <p>
+        <p>The standard MLB season is 162 games long and each team typically plays 81 games at home and 81 games in the stadiums of the opposing teams. Using data from historical MLB seasons, we can build a model to predict the total attendance at the 81 home games for each team. In many business applications, it&rsquo;s of particualr interest to stakeholders to understand which factors influence the revenue-creating side of the business. For this reason, we&rsquo;ll choose to use a linear regression model, which may fall short of deep-learning models when it comes to predictive power, but will provide an output that is interpritable and may allow for a better understaning of the business as a whole.</p>
+
+<p>First, we&rsquo;ll obtain and clean data. Attendance can be influenced by many factors beyond the playing field, so it will be important to include data on both team performance factors and the demographics of the city and fan base for each team. For team data, we can use <a href="www.baseballreference.com">Baseball Reference</a> to grab results between 2006 and 2014 for each of the 30 teams, giving us 270 observations. In addition to the win/loss records of each team, we have home attendance, wins, payroll, stadium name, stadium capacity, stadium age, number of years a team has been in a city, playoff appearances for each team, the number of all-stars for each team, the number of home-runs hit by each team, and the number of professional sports teams in in each city for each observation.</p>
+
+<p>Using publically available demographic data for each city, we can also include the number of people, the number of households, and the median income for various drive times (15, 30, 45, and 60 minutes) from each stadium. We then imported the data into R and inspected it for any obvious problems (graphically and using the <em>summary</em> command).</p>
+
+<pre><code class="language-r,">require(faraway)
+require(car)
+require(leaps)
+require(ggplot2)
+</code></pre>
+
+<pre><code class="language-r">mlbattendance_final = read.csv(&quot;mlbattendance_final.csv&quot;, header = TRUE)
+attach(mlbattendance_final)
+summary(mlbattendance_final)
+</code></pre>
+
+<p>reserve 10% of our data for testing purposes before starting our analysis.</p>
+
+<pre><code class="language-r,echo=FALSE">testdata &lt;- mlbattendance_final[(seq(from=10, to=nrow(mlbattendance_final), by=10)),]
+traindata &lt;- mlbattendance_final[-(seq(from=10, to=nrow(mlbattendance_final), by=10)),]
+</code></pre>
+
+<pre><code class="language-r">nrow(testdata)
+nrow(traindata)
+</code></pre>
+
+<p>We begin our analysis with 243 observations x 27 variables (including observation names) for the training data set.We started our analysis with a base model:</p>
+
+<pre><code class="language-r">basemod &lt;- lm(nextAttend ~ currentAttend + currentW + priorW + X.capacity + payrollM + 
+                stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + 
+                allstars + hrs + pop15 + pop30 + pop45 + pop60 + households15 + 
+                households30 + households45 + households60 + medInc15 + medInc30 + medInc45 +
+                medInc60,data=traindata)
+</code></pre>
+
+<p>Note: See Appendix A for an explanation of the data and variable names</p>
+
+<p>Initially, we suspected a strong correlation between many variables in our data set. We started by looking at the correlation matrix (See Appendix B).</p>
+
+<p>There were many strong correlations, especially with the demographic data. We decided to build a different base model for each level of drive time (15,30,45,60) data to determine which one has the most significance in the current model:</p>
+
+<pre><code class="language-r">lmod15&lt;-lm(nextAttend ~ currentAttend + currentW + priorW + X.capacity + payrollM + 
+             stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + allstars + 
+             hrs + pop15 + households15 + medInc15,data=traindata)
+
+
+lmod30&lt;-lm(nextAttend ~ currentAttend + currentW + priorW + X.capacity + payrollM + 
+             stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + allstars + 
+             hrs + pop30 + households30 + medInc30,data=traindata)
+
+
+lmod45&lt;-lm(nextAttend ~ currentAttend + currentW + priorW + X.capacity + payrollM + 
+             stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + allstars + 
+             hrs + pop45 + households45 + medInc45,data=traindata)
+
+
+lmod60&lt;-lm(nextAttend ~ currentAttend + currentW + priorW + X.capacity + payrollM + 
+             stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + allstars + 
+             hrs + pop60 + households60 + medInc60,data=traindata)
+
+</code></pre>
+
+<p>All models were similar in adjusted $r^2$, so we selected the 60-minute model, which seemed to have the most significance in the individual drive-time variables. Even after selecting a single level of demographic data, there still seemed to be issues with correlated predictors, so we decided to view the variance inflation factor(VIF) for the 60-minute model:</p>
+
+<pre><code class="language-r,include=FALSE">x2 &lt;- model.matrix(lmod60)[,-1]
+round(cor(x2[,1:15]),2)
+</code></pre>
+
+<pre><code class="language-r">vif(lmod60)
+</code></pre>
+
+<p>There seems to be two issues that need to be addressed. There is a very large VIF for currentAttend, X.capacity, pop60, and households60. stadiumCap also has a large VIF, but we will choose to address that after addressing the higher values. We start by removing X.capacity and households60.</p>
+
+<pre><code class="language-r">lmod &lt;- lm(nextAttend ~ currentAttend + currentW + priorW + payrollM + stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + allstars + hrs + pop60 + medInc60,data=traindata)
+vif(lmod)
+</code></pre>
+
+<p>All the VIF levels are under 10 (including <em>stadiumCap</em>), so we now move to graphically checking the variance (see Appendix C for plot).</p>
+
+<p>From the plot we can safely assess that the variance appears to be constant and no further investigation is needed.
+Next, we will check normality assumptions (see Appendix C for plot).</p>
+
+<p>The qqplot appears to show that the data is short-tailed, which is acceptable. We can conclude that no transformation of our model is needed because there doesn&rsquo;t appear to be any problems with variance or linearity.</p>
+
+<p>Next we will check for high leverages in our data:</p>
+
+<pre><code class="language-r">hatv &lt;- hatvalues(lmod)
+threshold &lt;- (2*14)/243
+hatv_true &lt;- hatv&gt;threshold
+which(hatv_true, useNames = TRUE)
+</code></pre>
+
+<p>There are a few observations that have a higher leverage than the $\textit{2p/n}$ ratio of 0.1037 (see Appendix C for plot). At this point we decide that they were not severe enough to immediately remove and should be assessed in presence of other tests. Next, we looked for outliers using the Bonferoni Correction:</p>
+
+<pre><code class="language-r">stud &lt;- rstudent(lmod)
+</code></pre>
+
+<p>This gives us studentized residuals. Now, calculate the Bonferoni critical value:</p>
+
+<pre><code class="language-r">bonf &lt;- qt((0.05/243*2),232)
+abs_bonf &lt;- abs(bonf)
+abs_stud &lt;- abs(stud)
+bonf_points &lt;- abs_stud &gt; abs_bonf
+abs_bonf
+</code></pre>
+
+<p>As we an see, there is one observation that exceeds the Bonferoni critical value. Because the data set is fairly large (n=243), we are not overly concerned with outliers. In order to test for influential points, we calculated the Cooks Distance for the data.</p>
+
+<pre><code class="language-r">cook &lt;- cooks.distance(lmod)
+</code></pre>
+
+<p>We then plotted the half normal plot of Cooks Distance and use the $4/(n-p-1)$ rule of thumb to check for any influential points in the data (see Appendix C for plot). From this we identified 12 points that appear to be influential points. We then removed those points and moved on with our diagnostics.</p>
+
+<pre><code class="language-r">newtrain &lt;- subset(traindata, cook &lt; 0.01754)
+</code></pre>
+
+<pre><code class="language-r,">lmod &lt;- lm(nextAttend ~ currentAttend + currentW + priorW + payrollM + stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + allstars + hrs + pop60 + medInc60,data=newtrain)
+lmod2 &lt;- lm(nextAttend ~ currentW + priorW + payrollM + stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + allstars + hrs + pop60 + medInc60, data=traindata)
+</code></pre>
+
+<p>Confident that our data and model assumptions are sound, we chose to move on to the shrinkage phase of the diagnostics.</p>
+
+<pre><code class="language-r">b &lt;- regsubsets((nextAttend ~ currentAttend + currentW + priorW + payrollM + stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + allstars + hrs + pop60 + medInc60), data=newtrain, nvmax=14)
+rs &lt;- summary(b)
+</code></pre>
+
+<p>Note: See Appendix E for predictor logic matrix</p>
+
+<pre><code class="language-r">AIC &lt;- 231*log(rs$rss/231) + (2:14)*2
+which.min(AIC)
+</code></pre>
+
+<p><em>AIC</em> suggests the nine predictor model (see Appendix C for plot). Next, we&rsquo;ll look at the <em>Mallows CP</em> criterion (see Appendix C for plot). <em>Mallows CP</em> suggests a model with ten predictors. Next, we looked at <em>adjusted $r^2$</em>.</p>
+
+<pre><code class="language-r">which.max(rs$adjr2)
+</code></pre>
+
+<p><em>Adjusted $r^2$</em> suggests 10 predictors. As we did further analysis to decide on a final model, something became clear. The model that we were considering had one predictor that was much more significant than the others: <em>currentAttend</em>. Including this predictor in our model gave us a higher degree of accuracy, which is desirable in a prediction model. However, this predictor appeared to already contain much of the information we sought to include in our model by using additional variables and would possibly limit the amount of inference that could be achieved compared to a model that uses more predictors. We decided to branch our model into two different versions: one with <em>currentAttend</em> and one without. We checked the Cooks Distances for this model with the original training data set and found that slightly fewer points seemed to be influential, so we made a separate subset for the second model.</p>
+
+<pre><code class="language-r">cook2 &lt;- cooks.distance(lmod2)
+newtrain2 &lt;- subset(traindata, cook2 &lt; 0.01746)
+</code></pre>
+
+<p>Here is the second version of the model:</p>
+
+<pre><code class="language-r">lmod2 &lt;- lm(nextAttend ~ currentW + priorW + payrollM + stadiumCap + stadiumAge + yearsInCity + playoffsBin + proTeams + allstars + hrs + pop60 + medInc60, data=newtrain2)
+</code></pre>
+
+<p>After running the same diagnostics on the second model as we did on the original, <em>AIC</em> suggested ten predictors, <em>CP</em> suggested 11 predictors, and <em>adjusted $r^2$</em> suggested 11.</p>
+
+<p>After considering the suggested number of predictors from each criterion, we removed predictors using the logic matrix and came up with the following models:</p>
+
+<pre><code class="language-r">final_lmod &lt;- lm(nextAttend ~ currentAttend + currentW + priorW + payrollM + stadiumCap + stadiumAge + yearsInCity + proTeams,data=newtrain)
+
+final_lmod2 &lt;- lm(nextAttend ~ hrs + stadiumAge + pop60 + priorW + playoffsBin + medInc60 + payrollM + currentW + yearsInCity + stadiumCap, data = newtrain2)
+
+
+</code></pre>
+
+<p>Taking a look at the coefficients, we decided to scale <em>stadiumCap</em> to the same units as the attendance numbers.</p>
+
+<pre><code class="language-r">
+final_lmod &lt;- lm(nextAttend ~ currentAttend + currentW + priorW + payrollM + I(stadiumCap/1000) + stadiumAge + yearsInCity + proTeams,data=newtrain)
+
+final_lmod2 &lt;- lm(nextAttend ~ hrs + stadiumAge + pop60 + priorW + playoffsBin + medInc60 + payrollM + currentW + yearsInCity + I(stadiumCap), data = newtrain2)
+
+sumary(final_lmod)
+sumary(final_lmod2)
+</code></pre>
+
+<p>For an interpretation of the coefficients, we start with the model containing <em>currentAttend</em>:</p>
+
+<p><strong>intercept</strong>: no meaningful interpretation (not possible to have negative attendance)<br />
+<strong>currentAttend</strong>: for every 1000 people that attend in the current year, 926 people can be expected to attend next year (ceteris paribus)<br />
+<strong>currentW</strong>: for each additional game a team wins, we can expect and additional 7780 people to attend the next year (ceteris paribus)<br />
+<strong>priorW</strong>: for each game a team won last season, the expected attendance will drop by 3459 people in two seasons(ceteris paribus). This is counterintuitive and may be due to a correction effect resulting from other predictors<br />
+<strong>payrollM</strong>: for each additional million dollars a team spends on payroll, the attendance of the next season can be expected to drop by 2189 (ceteris paribus). This is also counterintuitive and could also be a correcting effect.<br />
+<strong>stadiumCap</strong>: for each additional 1000 seats in capacity, the attendance can be expected to increase by 9281 people over the course of a season(ceteris paribus)<br />
+<strong>stadiumAge</strong>: for each additional year in stadium age, the attendance can be expected to increase by 1007(ceteris paribus)<br />
+<strong>yearsInCity</strong>: for each additional year a franchise has been located in its current city, we can expect an additional 705 people to attend (ceteris paribus)<br />
+<strong>proTeams</strong>: for every additional professional team in the metro area, attendance will increase by 13101 per season (ceteris paribus)</p>
+
+<p>There are a few differences in the coefficients between the two models. Most notably, all of the coefficients became positive (except for the intercept and <em>hrs</em>) in the second model. This leads us to believe that the <em>currentAttend</em> data was a very powerful vacuum, so to speak, and all the information that is sucked up by and contained inside of it needs to be corrected by other covariates contained in the model. In the absence of <em>currentAttend</em>, many of the other predictors&rsquo; significance levels increased as they absorbed some of the significance abandoned by <em>currentAttend</em>. Additionally, <em>hrs</em>, <em>pop60</em>, and <em>medInc60</em> are included in the model and are significant at the 0.15, 0.10, and 0.01 levels, respectively.</p>
+
+<p>We decided to use both models to fit values to the test data. First, we define a function that calculates <em>rmse</em>:</p>
+
+<pre><code class="language-r">rmse &lt;- function(x,y)sqrt(mean((x-y)^2))
+</code></pre>
+
+<p>Now we will compare the two models.</p>
+
+<p>The model with <em>currentAttend</em>:</p>
+
+<pre><code class="language-r">rmse(fitted(final_lmod),newtrain$nextAttend)
+rmse(predict(final_lmod,testdata),testdata$nextAttend)
+</code></pre>
+
+<p>The model without <em>currentAttend</em>:</p>
+
+<pre><code class="language-r">rmse(fitted(final_lmod2),newtrain2$nextAttend)
+rmse(predict(final_lmod2,testdata),testdata$nextAttend)
+</code></pre>
+
+<p>As we expected, the model that includes <em>currentAttend</em> has the lower <em>rmse</em> value for the train and test cases.</p>
+
+<p>Graphically:</p>
+
+<pre><code class="language-r,echo=FALSE,">attach(testdata)
+testvals &lt;- predict(final_lmod,testdata)
+plot(currentAttend,testvals, ylab = &quot;Predicted Values for Test Data&quot;, xlab=&quot;Actual Values from Test Data&quot;, main = &quot;Model With currentAttend&quot;)
+abline(0,1)
+testvals &lt;- predict(final_lmod2,testdata)
+plot(currentAttend,testvals, ylab = &quot;Predicted Values for Test Data&quot;, xlab=&quot;Actual Values from Test Data&quot;, main = &quot;Model without currentAttend&quot;)
+abline(0,1)
+</code></pre>
+
+        <br>
+        <a href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
   </div>
-
-
-      <div id="main" data-behavior="4"
-        class="hasCover
-               hasCoverMetaIn
-               ">
-        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
-          
-          
-          <div class="post-content markdown" itemprop="articleBody">
-            <div class="main-content-wrap">
-              
-
-
-<p>In this post, we’ll take the [Semeion Handwritten Digits] (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit" class="uri">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.</p>
-<p>First, we’ll read in the data, load the additional libraries, and create our initial data table.</p>
-<pre class="r"><code>library(&quot;mvtnorm&quot;)
-library(&quot;data.table&quot;)
-# Reading data and convert to data table
-setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
-data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
-x &lt;- data[, 1:256]</code></pre>
-<p>Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box. Each of these 256 pixels, originally in grey scale, was thresholded into a binary value that indicates ‘black’ or ‘white’ for that pixel. There are 10 additional columns (also binary), which indicate group membership. We’ll need to separate those labels into their own data table.</p>
-<pre class="r"><code>labels &lt;-apply(data[, 257:266], 1, function(xx){return(which(xx == &quot;1&quot;) -1)})</code></pre>
-<p>Before we start clustering, we need to take care of a few global variables and run our initial clustering algorithm.</p>
-<pre class="r"><code># k is the number of clusters
-k &lt;- 10
-# n is the number of observations
-n &lt;- nrow(x)
-# d is the number of diwmensions
-d &lt;- ncol(x)
-# q represents the number of principal components and will need to be manually changed
-q &lt;- 6
-# x.clusters are the clusters using k means and 100 random starts
-x.clusters &lt;- kmeans(x, k, nstart = 100)</code></pre>
-<p>Now that we have preliminary clusters, we’ll initialize our <span class="math inline">\(\gamma\)</span> matrix, which will hold the cluster membership probabilities for each observation. We then use <span class="math inline">\(\gamma\)</span> to calculate <span class="math inline">\(\Pi_k\)</span>, the proportion of observations assigned to cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\mu_k\)</span>, the mean of the observations within each cluster <span class="math inline">\(k\)</span>.</p>
-<pre class="r"><code># n by k matrix, initialized with zeros
-gamma &lt;- matrix(0, n, k)
-# indicate the inital custer membership with a binary label
-for(i in 1:n) {gamma[i, x.clusters$cluster[i]] = 1}
-# the number of members in each cluster
-N &lt;- colSums(gamma)
-# the percentage of the data set in cluster k
-pi.hat &lt;- N/n
-# the mean for each pixel in each cluster
-# note: a matrix is required for the t() function
-mu.hat &lt;- (t(gamma) %*% data.matrix(x))/ N</code></pre>
-<p>Before beginning the EM algorithm, we must initialize a covariance matrix for each pixel of each cluster. To do this, we’ll write a function to calculate the covariance for each cluster and store the result in a list of length <span class="math inline">\(k\)</span>.</p>
-<pre class="r"><code>sigma.k &lt;- function(GAMMA, X, MU, X.CLUSTERS, q){
-# initialize empty list to hold sigma matricies  
-sigma.list &lt;- list()
-# normailze columns
-g.norm &lt;- t(t(GAMMA)/N)
-# iterate over each cluster
-for(i in 1:k){
-# for each observation in the data set, subtract the mu
-x.mu &lt;- t(apply(X, 1, function(xx) xx-MU[i, ]))
-# create convariance matrix
-g.x.mu &lt;- t(g.norm[, i] * x.mu) %*% x.mu
-# eigen decomposition
-x.decomp &lt;- eigen(g.x.mu)
-# principal components step 
-if(q &gt; 0){
-sig.hat &lt;- sum(x.decomp$values[as.integer(q + 1):as.integer(d)]) / (d - q)
-decomp.vec &lt;- x.decomp$vectors[, 1:q]
-lambda &lt;- x.decomp$values[1:q]
-W &lt;- decomp.vec %*% (diag(q) * sqrt(lambda - sig.hat)) %*% t(decomp.vec)
-sigma.list[[i]] &lt;- W %*% t(W) + sig.hat * diag(d)
-}
-else {
-sigma.list[[i]] &lt;- diag(d) * sum(x.decomp$values) / d
-}
-}
-return(sigma.list)
-}</code></pre>
-<p>Now that we’ve defined our function, we can initialize our <span class="math inline">\(\Sigma\)</span> element:</p>
-<pre class="r"><code>sigma.hat &lt;- sigma.k(gamma, x, muHat, x.clusters, q)</code></pre>
-<p>Now that we have our basis functions and structure initialized, we can begin with the E and M steps of the process. In order to do that, we need to define a few more functions. First, we’ll update our <span class="math inline">\(\gamma\)</span> matrix with the following function:</p>
-<pre class="r"><code>update.gamma &lt;- function(PI, SIGMA , X, MU){
-# a temp matrix to store gamma values
-p.mu.sig &lt;- matrix(nrow = n, ncol = k)
-# iterate over clusters
-for(i in 1:k){
-# weight raw probabilities by pi
-p.mu.sig[, i] &lt;- PI[i] * dmvnorm(X, MU[i, ], SIGMA[[i]])
-}
-weights &lt;- rowSums(p.mu.sig)
-# returns normalized rows
-return(p.mu.sig / weights)
-}</code></pre>
-<p>Next, we need a function to calculate the log likelihood:</p>
-<pre class="r"><code>LL &lt;- function(PI, SIGMA, X, MU){
-# keeps a running track of the sum
-iter.sum &lt;- c(rep(0, n))
-for(i in 1:k){
-iter.sum &lt;- iter.sum + PI[i] * dmvnorm(X, MU[i, ], SIGMA[[i]])
-}
-return(sum(log(iter.sum)))
-}</code></pre>
-<p>Finally, we need a function to calculate the AIC, so that we’ll be able to pick the proper number of principal components to use with our algorithm.</p>
-<pre class="r"><code>AIC &lt;- function(LL, q){
-return(-2 * LL + 2 * (d * q + 1 - q* (q - 1) / 2))
-}</code></pre>
-<p>Now, we’re ready to begin our algorithm. The first step, or <span class="math inline">\(E\)</span> step, updates the <span class="math inline">\(\gamma\)</span> matrix. The second, or <span class="math inline">\(M\)</span>, step calculates the new <span class="math inline">\(\mu_k\)</span>, <span class="math inline">\(\pi_k\)</span>, and <span class="math inline">\(\Sigma_k\)</span> based on the updated <span class="math inline">\(\gamma\)</span> matrix. At the end of each iteration the log likelihood is calculated and after a predetermined number of iterations, the process should converge. Here, we will choose 50 iterations, which we will then examine graphically.</p>
-<pre class="r"><code>LL.list &lt;- c()
-AIC.list &lt;- c()
-iters &lt;- 0
-while(iters &lt; 51){
-gamma &lt;- update.gamma(piHat, sigma.hat, x , mu.hat)
-N &lt;- colSums(gamma)
-pi.hat &lt;- N / n
-mu.hat &lt;- (t(gamma) %*% as.matrix(x)) / N
-sigma.hat &lt;- sigma.k(gamma, x, mu.hat, x, q)
-log.likelihood &lt;- LL(pi.hat, sigma.hat, x, mu.hat)
-LL.list &lt;- c(LL.list, log.likelihood)
-iters &lt;- iters + 1
-}
-AIC.q &lt;- AIC(tail(LL.list, 1), q)
-AIC.list &lt;- c(AIC.list, AIC.q)
-if(q == 0){
-  ll.plot &lt;- as.matrix(LL.list)
-} else{
-  ll.plot &lt;- cbind(ll.plot, LL.list)
-}
-AIC.table &lt;- rbind(AIC.table, cbind(q, AIC.q)</code></pre>
-<p>Some simple code to plot the log likelihood for each <span class="math inline">\(q\)</span>:</p>
-<pre class="r"><code># a vector of q values
-q.list &lt;- c(0, 2, 4, 6)
-par(mfrow=c(2,2))
-# plot each column of the object holding our likelihood values
-for(i in 1:4){
-plot(ll.plot[, i], ylab = &quot;Log Likelihood&quot;, xlab = &quot;Iteration&quot;,
-main=paste(&quot;q&quot;, q.list[i], sep= &quot; = &quot;))}</code></pre>
-<div class="figure">
-<img src="q_plot.jpeg" alt="Fig 1: convergance of the EM algorithm" />
-<p class="caption">Fig 1: convergance of the EM algorithm</p>
-</div>
-<p>As we can see from the plots, the algorithm needed far fewer than 50 iterations to converge. We can also see the dramatic change in log likelihood values and <span class="math inline">\(q\)</span> increases. As previously mentioned, we’re using the value of <span class="math inline">\(q\)</span> which minimizes AIC:</p>
-<br><br>
-<center>
-<table style="width:29%;">
-<caption>AIC value for each <span class="math inline">\(q\)</span>:</caption>
-<colgroup>
-<col width="11%" />
-<col width="18%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>q</th>
-<th>AIC</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>6</td>
-<td>255256.93</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>291812.73</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>346328.17</td>
-</tr>
-<tr class="even">
-<td>0</td>
-<td>420376.53</td>
-</tr>
-</tbody>
-</table>
-</center>
-<p><br></p>
-<p>We can see that <span class="math inline">\(q = 6\)</span> minimizes the AIC, so that is the number of principal components we’ll use for our model, which we’ll now assess for accuracy. First, we’ll create a panel plot comparing the mean of each cluster to a five random draws from the distribution.</p>
-<pre class="r"><code>par(mai = c(0.05, 0.05, 0.05, 0.05), mfrow = c(10, 6))
-for(i in 1:k){
-image(t(matrix(mu.hat[i, ], byrow = TRUE, 16, 16)[16:1, ]), col = topo.colors(255, alpha = 0.75), axes = FALSE)
-box()
-for(j in 1:5){
-randomPick &lt;- rmvnorm(1, mu.hat[i, ], sigma.hat[[i]])
-image(t(matrix(randomPick, byrow=TRUE, 16, 16)[16:1, ]), col = topo.colors(255, alpha = 0.75), axes = FALSE)
-}
-}</code></pre>
-<div class="figure">
-<img src="mean_plot.jpeg" alt="Fig 2: cluster means versus random draws" />
-<p class="caption">Fig 2: cluster means versus random draws</p>
-</div>
-<p>A visual inspection reveals quite a bit of about the clusters. The cluster means are much more discernible than random draws from the distribution. Several are the numbers are quite distinguishable, while others are less defined, especially in pixels that intersect with similar numbers. Zero appears twice, and numbers two and three have gotten mixed in with other digits.</p>
-<p>The next step will be to examine the classification and misclassification rates of our model. We must first define one of these rates, as the other is simply <span class="math inline">\((1 - rate)\)</span>. Using the ground truth labels, we will define the misclassification rate as the proportion of each digit not assigned to the same cluster that the majority of that digit is assigned to. The following code will allow us to calculate the misclassification rates for each digit.</p>
-<pre class="r"><code>get.mode &lt;- function(x) {
-x.values &lt;- unique(x)
-totals &lt;- tabulate(match(x, x.values))
-return(c(x.values[which.max(totals)], max(totals)))
-}
-which.digit &lt;- c()
-for(i in 1:n){
-which.digit &lt;- c(which.digit, which.max(gamma[i, ]) )
-}
-digit.mapping &lt;- matrix(0, 10, 2)
-for(ii in 1:k){
-indices &lt;- which(which.digit == ii - 1)
-digit.mapping[ii, ] &lt;- get.mode(which.digit[indices]) }
-ground.truth &lt;- tabulate(match(which.digit, unique(which.digit)))
-truth.prop &lt;- digit.mapping[, 2] / ground.truth
-mis.truth &lt;- 1 - truth.prop
-mis.class &lt;- 1 - sum(digit.mapping[, 2]) / n</code></pre>
-Which gives us the following table:
-<br><br>
-<center>
-<table style="width:62%;">
-<caption>MCR(misclassification rate)</caption>
-<colgroup>
-<col width="11%" />
-<col width="13%" />
-<col width="15%" />
-<col width="11%" />
-<col width="11%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Digit</th>
-<th>Cluster</th>
-<th>Quantity</th>
-<th>Total</th>
-<th>MCR</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>1</td>
-<td>87</td>
-<td>161</td>
-<td>0.46</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>7</td>
-<td>99</td>
-<td>162</td>
-<td>0.39</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>3</td>
-<td>105</td>
-<td>159</td>
-<td>0.34</td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>6</td>
-<td>105</td>
-<td>159</td>
-<td>0.34</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>8</td>
-<td>138</td>
-<td>161</td>
-<td>0.14</td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td>10</td>
-<td>76</td>
-<td>159</td>
-<td>0.52</td>
-</tr>
-<tr class="odd">
-<td>6</td>
-<td>4</td>
-<td>116</td>
-<td>161</td>
-<td>0.28</td>
-</tr>
-<tr class="even">
-<td>7</td>
-<td>2</td>
-<td>134</td>
-<td>159</td>
-<td>0.15</td>
-</tr>
-<tr class="odd">
-<td>8</td>
-<td>5</td>
-<td>118</td>
-<td>155</td>
-<td>0.24</td>
-</tr>
-<tr class="even">
-<td>9</td>
-<td>10</td>
-<td>78</td>
-<td>158</td>
-<td>0.51</td>
-</tr>
-</tbody>
-</table>
-</center>
-<p><br></p>
-<p>This MCR table helps shed some light on inferences we made from the previous plots. Cluster 9, which most closely resembles a zero, was not the most common cluster for any digit. Cluster 10 was the most common cluster for both five and nine. The clusters with the lower misclassification rate tend to be the clusters with the most clearly defined mean plots in <em>Fig 2</em>.</p>
-
-              
-            </div>
-          </div>
-          <div id="post-footer" class="post-footer main-content-wrap">
-            
-              
-                
-                
-                  <div class="post-footer-tags">
-                    <span class="text-color-light text-small">TAGGED IN</span><br/>
-                    
-  <a class="tag tag--primary tag--small" href="/tags/machine-learning/">machine learning</a>
-
-  <a class="tag tag--primary tag--small" href="/tags/r/">R</a>
-
-  <a class="tag tag--primary tag--small" href="/tags/pca/">PCA</a>
-
-  <a class="tag tag--primary tag--small" href="/tags/em/">EM</a>
-
-  <a class="tag tag--primary tag--small" href="/tags/kmeans/">kmeans</a>
-
-  <a class="tag tag--primary tag--small" href="/tags/clustering/">clustering</a>
-
-                  </div>
-                
-              
-            
-            <div class="post-actions-wrap">
-  <nav>
-    <ul class="post-actions post-action-nav">
-      
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/test-post/" data-tooltip="Test Post">
-          
-            <i class="fa fa-angle-left"></i>
-            <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
-          </a>
-        </li>
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/" data-tooltip="Using Regression Analysis to Predict MLB Attendance">
-          
-            <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
-            <i class="fa fa-angle-right"></i>
-          </a>
-        </li>
-      
-    </ul>
-  </nav>
-  <ul class="post-actions post-action-share">
-    
-      <li class="post-action hide-lg hide-md hide-sm">
-        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-          <i class="fa fa-share-alt"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-google-plus"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-facebook-official"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-twitter"></i>
-        </a>
-      </li>
-    
-    
-      <li class="post-action">
-        <a class="post-action-btn btn btn--default" href="#disqus_thread">
-          <i class="fa fa-comment-o"></i>
-        </a>
-      </li>
-    
-    <li class="post-action">
-      
-        <a class="post-action-btn btn btn--default" href="#">
-      
-        <i class="fa fa-list"></i>
-      </a>
-    </li>
-  </ul>
-</div>
-
+  
+    <a href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="images/heat_plot_large.jpeg"/>
+      </div>
+    </a>
+  
+</article>
 
             
-              
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-              
             
-          </div>
-        </article>
+
+          </section>
+        
         <footer id="footer" class="main-content-wrap">
 <script type="text/javascript"
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
@@ -649,92 +490,6 @@ Which gives us the following table:
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-        <div class="post-actions-wrap">
-  <nav>
-    <ul class="post-actions post-action-nav">
-      
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/test-post/" data-tooltip="Test Post">
-          
-            <i class="fa fa-angle-left"></i>
-            <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
-          </a>
-        </li>
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/using-regression-analysis-to-predict-mlb-attendance/" data-tooltip="Using Regression Analysis to Predict MLB Attendance">
-          
-            <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
-            <i class="fa fa-angle-right"></i>
-          </a>
-        </li>
-      
-    </ul>
-  </nav>
-  <ul class="post-actions post-action-share">
-    
-      <li class="post-action hide-lg hide-md hide-sm">
-        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-          <i class="fa fa-share-alt"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-google-plus"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-facebook-official"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-twitter"></i>
-        </a>
-      </li>
-    
-    
-      <li class="post-action">
-        <a class="post-action-btn btn btn--default" href="#disqus_thread">
-          <i class="fa fa-comment-o"></i>
-        </a>
-      </li>
-    
-    <li class="post-action">
-      
-        <a class="post-action-btn btn btn--default" href="#">
-      
-        <i class="fa fa-list"></i>
-      </a>
-    </li>
-  </ul>
-</div>
-
-
-      </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-  <ul class="share-options">
-    <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-        <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
-      </a>
-    </li>
-    <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-        <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-      </a>
-    </li>
-    <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2f2017%2f06%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-        <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-      </a>
-    </li>
-  </ul>
-</div>
-<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -1133,32 +888,6 @@ $(document).ready(function() {
   });
 });
 </script>
-
-  
-    
-      <script>
-        var disqus_config = function () {
-          this.page.url = '\/2017\/06\/classifying-handwritten-digits-using-em-and-pca\/';
-          
-            this.page.identifier = '\/2017\/06\/classifying-handwritten-digits-using-em-and-pca\/'
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'hugo-tranquilpeak-theme';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
-    
-  
 
 
 
