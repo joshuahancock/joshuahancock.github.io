@@ -17,7 +17,7 @@
       <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/02/classifying-handwritten-digits-using-em-and-pca/</guid>
-      <description>In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+      <description>In this post, we’ll take the Semeion Handwritten Digits data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
 library(&amp;quot;mvtnorm&amp;quot;)library(&amp;quot;data.table&amp;quot;)# Reading data and convert to data tablesetwd(&amp;quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&amp;quot;)data &amp;lt;- fread(&amp;quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&amp;quot;, header = FALSE)x &amp;lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</description>
     </item>

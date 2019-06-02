@@ -8,12 +8,12 @@
 <meta name="generator" content="Hugo 0.54.0 with theme Tranquilpeak 0.4.3-SNAPSHOT">
 <meta name="author" content="Josh Hancock">
 <meta name="keywords" content="">
-<meta name="description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+<meta name="description" content="In this post, we’ll take the Semeion Handwritten Digits data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
 library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
 
 
-<meta property="og:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+<meta property="og:description" content="In this post, we’ll take the Semeion Handwritten Digits data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
 library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
 <meta property="og:type" content="article">
@@ -22,10 +22,10 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
 <meta property="og:url" content="/2019/02/classifying-handwritten-digits-using-em-and-pca/">
 <meta property="twitter:url" content="/2019/02/classifying-handwritten-digits-using-em-and-pca/">
 <meta property="og:site_name" content="Josh Hancock&#39;s Personal Site">
-<meta property="og:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+<meta property="og:description" content="In this post, we’ll take the Semeion Handwritten Digits data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
 library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
-<meta name="twitter:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+<meta name="twitter:description" content="In this post, we’ll take the Semeion Handwritten Digits data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
 library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
 <meta property="og:locale" content="en-us">
@@ -67,12 +67,12 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
 
 
 
-  <meta property="og:image" content="/images/heat_plot_large.jpeg">
-  <meta property="twitter:image" content="/images/heat_plot_large.jpeg">
+  <meta property="og:image" content="images/heat_plot_large.jpeg">
+  <meta property="twitter:image" content="images/heat_plot_large.jpeg">
 
 
-  <meta property="og:image" content="/heat_plot_large.jpeg">
-  <meta property="twitter:image" content="/heat_plot_large.jpeg">
+  <meta property="og:image" content="heat_plot_large.jpeg">
+  <meta property="twitter:image" content="heat_plot_large.jpeg">
 
 
 
@@ -199,7 +199,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://github.com/joshuahancock">
+      <a class="sidebar-button-link " href="/https://github.com/joshuahancock">
     
       <i class="sidebar-button-icon fa fa-lg fa-github"></i>
       
@@ -276,7 +276,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
               
 
 
-<p>In this post, we’ll take the [Semeion Handwritten Digits] (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit" class="uri">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.</p>
+<p>In this post, we’ll take the <a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit" class="uri">Semeion Handwritten Digits</a> data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.</p>
 <p>First, we’ll read in the data, load the additional libraries, and create our initial data table.</p>
 <pre class="r"><code>library(&quot;mvtnorm&quot;)
 library(&quot;data.table&quot;)
@@ -782,7 +782,7 @@ Which gives us the following table:
                   Feb 2, 2019
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+              <div class="media-content hide-xs font-merryweather">In this post, we’ll take the Semeion Handwritten Digits data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
 library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</div>
             </div>
@@ -805,7 +805,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
     
   
     
-    <div id="cover" style="background-image:url('/images/placeholder_optimized.jpg');"></div>
+    <div id="cover" style="background-image:url('images/placeholder_optimized.jpg');"></div>
   
 
 
