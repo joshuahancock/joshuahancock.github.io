@@ -1,76 +1,102 @@
-
-
-  
-    
-  
-
-
-  
-
-
-
-
-
-  
-
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
     
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.54.0">
-    <meta name="theme" content="Tranquilpeak 0.3.1-BETA">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.54.0 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="Josh Hancock">
+<meta name="keywords" content="">
+<meta name="description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
+
+
+<meta property="og:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Classifying Handwritten Digits Using EM and PCA">
+<meta name="twitter:title" content="Classifying Handwritten Digits Using EM and PCA">
+<meta property="og:url" content="/2019/02/classifying-handwritten-digits-using-em-and-pca/">
+<meta property="twitter:url" content="/2019/02/classifying-handwritten-digits-using-em-and-pca/">
+<meta property="og:site_name" content="Josh Hancock&#39;s Personal Site">
+<meta property="og:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
+<meta name="twitter:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
+First, we’ll read in the data, load the additional libraries, and create our initial data table.
+library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2019-02-03T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2019-02-03T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="machine learning">
+    
+  
+  
+    
+      <meta property="article:tag" content="machine learning">
+    
+      <meta property="article:tag" content="R">
+    
+      <meta property="article:tag" content="PCA">
+    
+      <meta property="article:tag" content="EM">
+    
+      <meta property="article:tag" content="kmeans">
+    
+      <meta property="article:tag" content="clustering">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="/images/heat_plot_large.jpeg">
+  <meta property="twitter:image" content="/images/heat_plot_large.jpeg">
+
+
+  <meta property="og:image" content="/heat_plot_large.jpeg">
+  <meta property="twitter:image" content="/heat_plot_large.jpeg">
+
+
+
+
+  <meta property="og:image" content="https://github.com/joshuahancock/joshuahancock.github.io/blob/master/images/avatar.jpg?raw=true">
+  <meta property="twitter:image" content="https://github.com/joshuahancock/joshuahancock.github.io/blob/master/images/avatar.jpg?raw=true">
+
+
     <title>Classifying Handwritten Digits Using EM and PCA</title>
-    <meta name="author" content="Josh Hancock">
-    <meta name="keywords" content="">
 
     <link rel="icon" href="/favicon.png">
     
 
     
-    <meta name="description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
-First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
-    <meta property="og:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
-First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
-    <meta property="og:type" content="blog">
-    <meta property="og:title" content="Classifying Handwritten Digits Using EM and PCA">
-    <meta property="og:url" content="/2019/02/classifying-handwritten-digits-using-em-and-pca/">
-    <meta property="og:site_name" content="Josh Hancock&#39;s Personal Site">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Josh Hancock&#39;s Personal Site">
-    <meta name="twitter:description" content="In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion&#43;handwritten&#43;digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
-First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.">
-    
-    
+
+    <link rel="canonical" href="/2019/02/classifying-handwritten-digits-using-em-and-pca/">
 
     
-    
-
-    
-      <meta property="og:image" content="https://github.com/joshuahancock/joshuahancock.github.io/blob/master/images/avatar.jpg?raw=true">
-    
-
-    
-      <meta property="og:image" content="images/heat_plot_large.jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-      <meta property="og:image" content="heat_plot_large.jpeg">
-    
-    
-
-    
-
-    
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" />
-    
-    
-    <link rel="stylesheet" href="/css/style-u6mk0ojoywresbx8iepslrmmhl4stuhrsxuwhkpwrkrx7mryjcaimasnk4pi.min.css" />
+    <link rel="stylesheet" href="/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
     
     
 
@@ -167,6 +193,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
     </a>
   </li>
 
+
     </ul>
     <ul class="sidebar-buttons">
       
@@ -180,6 +207,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
     </a>
   </li>
 
+
     </ul>
     <ul class="sidebar-buttons">
       
@@ -192,6 +220,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
       <span class="sidebar-button-desc">RSS</span>
     </a>
   </li>
+
 
     </ul>
   </div>
@@ -210,15 +239,16 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
       Classifying Handwritten Digits Using EM and PCA
     </h1>
   
-  <div class="postShorten-meta post-meta">
   
-    <time itemprop="datePublished" datetime="2019-02-03T00:00:00Z">
-      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-02-03T00:00:00Z">
+        
   February 3, 2019
 
-    </time>
-  
-  
+      </time>
+    
+    
   
   
     <span>in</span>
@@ -227,8 +257,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
     
   
 
-
-</div>
+  </div>
 
 </div>
     
@@ -309,7 +338,7 @@ sigma.list[[i]] &lt;- diag(d) * sum(x.decomp$values) / d
 return(sigma.list)
 }</code></pre>
 <p>Now that we’ve defined our function, we can initialize our <span class="math inline">\(\Sigma\)</span> element:</p>
-<pre class="r"><code>sigma.hat &lt;- sigma.k(gamma, x, muHat, x.clusters, q)</code></pre>
+<pre class="r"><code>sigma.hat &lt;- sigma.k(gamma, x, mu.hat, x.clusters, q)</code></pre>
 <p>Now that we have our basis functions and structure initialized, we can begin with the E and M steps of the process. In order to do that, we need to define a few more functions. First, we’ll update our <span class="math inline">\(\gamma\)</span> matrix with the following function:</p>
 <pre class="r"><code>update.gamma &lt;- function(PI, SIGMA , X, MU){
 # a temp matrix to store gamma values
@@ -341,7 +370,7 @@ return(-2 * LL + 2 * (d * q + 1 - q* (q - 1) / 2))
 AIC.list &lt;- c()
 iters &lt;- 0
 while(iters &lt; 51){
-gamma &lt;- update.gamma(piHat, sigma.hat, x , mu.hat)
+gamma &lt;- update.gamma(pi.hat, sigma.hat, x , mu.hat)
 N &lt;- colSums(gamma)
 pi.hat &lt;- N / n
 mu.hat &lt;- (t(gamma) %*% as.matrix(x)) / N
@@ -355,6 +384,7 @@ AIC.list &lt;- c(AIC.list, AIC.q)
 if(q == 0){
   ll.plot &lt;- as.matrix(LL.list)
 } else{
+  print(iters)
   ll.plot &lt;- cbind(ll.plot, LL.list)
 }
 AIC.table &lt;- rbind(AIC.table, cbind(q, AIC.q)</code></pre>
@@ -565,68 +595,55 @@ Which gives us the following table:
               
             
             <div class="post-actions-wrap">
-  <nav>
-    <ul class="post-actions post-action-nav">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
       
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/using-regression-analysis-to-predict-mlb-attendance/" data-tooltip="Using Regression Analysis to Predict MLB Attendance">
-          
-            <i class="fa fa-angle-left"></i>
-            <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
           </a>
         </li>
+        
+      
+      
         <li class="post-action">
-          
-            <a class="post-action-btn btn btn--disabled">
-          
-            <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
-            <i class="fa fa-angle-right"></i>
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
           </a>
         </li>
       
-    </ul>
-  </nav>
-  <ul class="post-actions post-action-share">
-    
-      <li class="post-action hide-lg hide-md hide-sm">
-        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-          <i class="fa fa-share-alt"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f2019%2f02%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-google-plus"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f2019%2f02%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-facebook-official"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f2019%2f02%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-twitter"></i>
-        </a>
-      </li>
-    
-    
       <li class="post-action">
-        <a class="post-action-btn btn btn--default" href="#disqus_thread">
-          <i class="fa fa-comment-o"></i>
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
         </a>
       </li>
-    
-    <li class="post-action">
-      
-        <a class="post-action-btn btn btn--default" href="#">
-      
-        <i class="fa fa-list"></i>
-      </a>
-    </li>
-  </ul>
+    </ul>
+  
 </div>
-
 
             
               
@@ -638,11 +655,6 @@ Which gives us the following table:
           </div>
         </article>
         <footer id="footer" class="main-content-wrap">
-<script type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
-
   <span class="copyrights">
     &copy; 2019 Josh Hancock. All Rights Reserved
   </span>
@@ -651,87 +663,61 @@ Which gives us the following table:
       </div>
       <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
         <div class="post-actions-wrap">
-  <nav>
-    <ul class="post-actions post-action-nav">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
       
-        <li class="post-action">
-          
-            <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/using-regression-analysis-to-predict-mlb-attendance/" data-tooltip="Using Regression Analysis to Predict MLB Attendance">
-          
-            <i class="fa fa-angle-left"></i>
-            <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
           </a>
         </li>
+        
+      
+      
         <li class="post-action">
-          
-            <a class="post-action-btn btn btn--disabled">
-          
-            <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
-            <i class="fa fa-angle-right"></i>
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
           </a>
         </li>
       
-    </ul>
-  </nav>
-  <ul class="post-actions post-action-share">
-    
-      <li class="post-action hide-lg hide-md hide-sm">
-        <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-          <i class="fa fa-share-alt"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=%2f2019%2f02%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-google-plus"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f2019%2f02%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-facebook-official"></i>
-        </a>
-      </li>
-      <li class="post-action hide-xs">
-        <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=%2f2019%2f02%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-          <i class="fa fa-twitter"></i>
-        </a>
-      </li>
-    
-    
       <li class="post-action">
-        <a class="post-action-btn btn btn--default" href="#disqus_thread">
-          <i class="fa fa-comment-o"></i>
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
         </a>
       </li>
-    
-    <li class="post-action">
-      
-        <a class="post-action-btn btn btn--default" href="#">
-      
-        <i class="fa fa-list"></i>
-      </a>
-    </li>
-  </ul>
+    </ul>
+  
 </div>
-
 
       </div>
       <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
   <ul class="share-options">
-    <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2f2019%2f02%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-        <i class="fa fa-google-plus"></i><span>Share on Google Plus</span>
-      </a>
-    </li>
-    <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2f2019%2f02%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-        <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-      </a>
-    </li>
-    <li class="share-option">
-      <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2f2019%2f02%2fclassifying-handwritten-digits-using-em-and-pca%2f">
-        <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-      </a>
-    </li>
+    
   </ul>
 </div>
 <div id="share-options-mask" class="share-options-mask"></div>
@@ -770,7 +756,7 @@ Which gives us the following table:
   <div class="modal">
     <div class="modal-header">
       <span class="close-button"><i class="fa fa-close"></i></span>
-      <a href="https://algolia.com" target="_blank" class="searchby-algolia text-color-light link-unstyled">
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
         <span class="searchby-algolia-text text-color-light text-small">by</span>
         <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
       </a>
@@ -784,23 +770,6 @@ Which gives us the following table:
       <div class="no-result text-color-light text-center">no post found</div>
       <div class="results">
         
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="/2019/04/using-regression-analysis-to-predict-mlb-attendance/">
-                <h3 class="media-heading">Using Regression Analysis to Predict MLB Attendance</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Apr 4, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">The standard MLB season is 162 games long and each team typically plays 81 games at home and 81 games in the stadiums of the opposing teams. Using data from historical MLB seasons, we can build a model to predict the total attendance at the 81 home games for each team. In many business applications, it’s of particualr interest to stakeholders to understand which factors influence the revenue-creating side of the business.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
         
           <div class="media">
             
@@ -821,23 +790,6 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="/post/">
-                <h3 class="media-heading">Posts</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Apr 4, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather"></div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -845,7 +797,7 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         3 posts found
+         1 posts found
       </p>
     </div>
   </div>
@@ -853,37 +805,34 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
     
   
     
-    <div id="cover" style="background-image:url('images/placeholder_optimized.jpg');"></div>
+    <div id="cover" style="background-image:url('/images/placeholder_optimized.jpg');"></div>
   
 
 
     
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 
 
-<script src="/js/script-wl33z0n6ocaypepiqrazthtivfrliqijej4rq8ek8gvrv1awftmgjuv8k4zc.min.js"></script>
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
 
-<script>
-$(document).ready(function() {
-  hljs.configure({ classPrefix: '', useBR: false });
-  $('pre.code-highlight').each(function(i, block) {
-    var code = "";
-    hljs.highlightAuto(block.innerText).value.split(/\r\n|\r|\n/).forEach(function(line) {
-      code += "<span class=\"line\">" + line + "</span><br>";
-    });
-    if (code.length > 0) {
-      block.innerHTML = code;  
-    }
-  });
-  $('pre > code').each(function(i, block) {
-    $(this).addClass('codeblock');
-    hljs.highlightBlock(block);
-  });
-});
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
 </script>
+
 
   
     
@@ -910,7 +859,6 @@ $(document).ready(function() {
       </script>
     
   
-
 
 
 
