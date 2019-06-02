@@ -235,9 +235,8 @@
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
-First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.
+        <p>In this post, we’ll take the [Semeion Handwritten Digits] (<a href="http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit" class="uri">http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit</a>) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.</p>
+<p>First, we’ll read in the data, load the additional libraries, and create our initial data table.</p>
       
       <p>
         <a href="/2019/02/classifying-handwritten-digits-using-em-and-pca/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -328,7 +327,13 @@ library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and 
               </span>
               <div class="media-content hide-xs font-merryweather">In this post, we’ll take the [Semeion Handwritten Digits] (http://archive.ics.uci.edu/ml/datasets/semeion+handwritten+digit) data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)library(&quot;data.table&quot;)# Reading data and convert to data tablesetwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)x &lt;- data[, 1:256]Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</div>
+library(&quot;mvtnorm&quot;)
+library(&quot;data.table&quot;)
+# Reading data and convert to data table
+setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
+data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
+x &lt;- data[, 1:256]
+Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
