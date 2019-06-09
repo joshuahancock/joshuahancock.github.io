@@ -259,11 +259,11 @@ if (!doNotTrack) {
       
         In this post, we’ll take the Semeion Handwritten Digits data set and cluster the handwritten digits data using the EM algorithm with a principle components step within each maximization.
 First, we’ll read in the data, load the additional libraries, and create our initial data table.
-library(&quot;mvtnorm&quot;)
+<pre class="r"><code>library(&quot;mvtnorm&quot;)
 library(&quot;data.table&quot;)
 # Reading data and convert to data table
 setwd(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/&quot;)
-data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)
+data &lt;- fread(&quot;C:/Users/Josh/Documents/GitHub/joshuahancock.github.io/data_sets/semeion.csv&quot;, header = FALSE)</code></pre>
 Each row of the data represents one handwritten digit, which were digitally scanned and stretched into a 16x16 pixel box.
       
       <p>
